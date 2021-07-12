@@ -13,7 +13,7 @@ const users = [];
 function checksExistsUserAccount(request, response, next) {
     // Complete aqui
     const { username } = request.headers;
-    const user = users.some((user) => user.username === username);
+    const user = users.find(user => user.username === username);
 
     if (!user) {
         return response.status(404).json({ error: 'User not found' });
@@ -27,9 +27,9 @@ app.post('/users', (request, response) => {
     // Complete aqui
     const { name, username } = request.body;
 
-    const usersAlreadyExist = users.find((users) => users.username === username);
+    const userAlreadyExist = users.find(user => user.username === username);
 
-    if (usersAlreadyExist) {
+    if (userAlreadyExist) {
         return response.status(400).json({ error: 'Username already exist' })
 
     }
@@ -62,7 +62,7 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
         title,
         done: false,
         deadline: new Date(deadline),
-        created_at: new Date(),
+        created_at: new Date()
     }
     user.todos.push(todo);
     return response.status(201).json(todo);
